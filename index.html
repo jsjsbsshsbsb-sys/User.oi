@@ -20,11 +20,15 @@
 
         :root {
             --primary: #6C63FF;
+            --primary-dark: #5A52D5;
             --premium: #FF6B35;
+            --premium-dark: #E55A26;
             --bg: #0F0F1A;
             --bg-card: #1A1A2E;
+            --bg-card-2: #16213E;
             --text: #FFFFFF;
             --text-2: #8B8FA8;
+            --text-3: #5A5E75;
             --border: rgba(255,255,255,0.08);
             --success: #00D084;
             --error: #FF4757;
@@ -59,7 +63,7 @@
             align-items: center;
             justify-content: center;
             z-index: 9999;
-            gap: 20px;
+            gap: 24px;
         }
 
         .loader.hidden {
@@ -67,29 +71,36 @@
         }
 
         .loader-icon {
-            font-size: 60px;
-            animation: pulse 1.5s ease-in-out infinite;
+            font-size: 80px;
+            animation: pulse 1.8s ease-in-out infinite;
         }
 
         .loader-text {
-            font-size: 32px;
+            font-size: 36px;
             font-weight: 800;
             background: linear-gradient(135deg, #6C63FF, #FF6B35);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            letter-spacing: -1px;
+        }
+
+        .loader-subtitle {
+            font-size: 13px;
+            color: var(--text-2);
+            font-weight: 500;
         }
 
         @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
+            0%, 100% { transform: scale(1) translateY(0); }
+            50% { transform: scale(1.15) translateY(-8px); }
         }
 
         /* ===== HEADER ===== */
         .header {
-            background: linear-gradient(135deg, rgba(108, 99, 255, 0.1), rgba(255, 107, 53, 0.05));
+            background: linear-gradient(135deg, rgba(108, 99, 255, 0.15), rgba(255, 107, 53, 0.08));
             border-bottom: 1px solid var(--border);
-            padding: 16px 20px;
+            padding: 18px 20px;
             position: sticky;
             top: 0;
             z-index: 100;
@@ -99,21 +110,28 @@
         .header-content {
             display: flex;
             align-items: center;
-            gap: 12px;
+            justify-content: space-between;
             max-width: 480px;
             margin: 0 auto;
         }
 
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
         .header-logo {
-            width: 44px;
-            height: 44px;
+            width: 48px;
+            height: 48px;
             background: linear-gradient(135deg, #6C63FF, #FF6B35);
-            border-radius: 12px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            font-size: 28px;
             font-weight: 800;
+            box-shadow: 0 8px 24px rgba(108, 99, 255, 0.3);
         }
 
         .header-info {
@@ -123,35 +141,63 @@
         }
 
         .header-title {
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 800;
             line-height: 1;
+            letter-spacing: -0.5px;
         }
 
         .header-subtitle {
             font-size: 11px;
             color: var(--text-2);
+            font-weight: 500;
+        }
+
+        .header-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0, 208, 132, 0.1);
+            border: 1px solid rgba(0, 208, 132, 0.2);
+            color: var(--success);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .badge-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: blink 2s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
         }
 
         /* ===== SCREEN ===== */
         .screen {
             display: none;
             min-height: 100vh;
+            animation: fadeIn 0.4s ease;
         }
 
         .screen.active {
             display: block;
-            animation: fadeIn 0.3s ease;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(12px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         /* ===== HOME SCREEN ===== */
         .hero {
-            padding: 40px 20px;
+            padding: 50px 20px 40px;
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -160,11 +206,23 @@
         .hero::before {
             content: '';
             position: absolute;
-            top: -100px;
-            right: -100px;
+            top: -150px;
+            right: -150px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(108, 99, 255, 0.12), transparent);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -100px;
+            left: -100px;
             width: 400px;
             height: 400px;
-            background: radial-gradient(circle, rgba(108, 99, 255, 0.15), transparent);
+            background: radial-gradient(circle, rgba(255, 107, 53, 0.1), transparent);
             border-radius: 50%;
             pointer-events: none;
         }
@@ -175,41 +233,93 @@
         }
 
         .hero-icon {
-            font-size: 80px;
+            font-size: 100px;
             margin-bottom: 20px;
             display: inline-block;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
         }
 
         .hero-title {
-            font-size: 32px;
+            font-size: 36px;
             font-weight: 800;
-            margin-bottom: 12px;
-            background: linear-gradient(135deg, #FFFFFF, #A09BFF);
+            margin-bottom: 14px;
+            background: linear-gradient(135deg, #FFFFFF 0%, #A09BFF 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            line-height: 1.2;
+            line-height: 1.1;
+            letter-spacing: -1px;
         }
 
         .hero-desc {
             font-size: 15px;
             color: var(--text-2);
             line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        .hero-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
             margin-bottom: 30px;
         }
 
+        .hero-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .hero-btn:active {
+            transform: scale(0.95);
+        }
+
+        .hero-btn-icon {
+            font-size: 32px;
+        }
+
+        .hero-btn-text {
+            font-size: 12px;
+            font-weight: 600;
+            text-align: center;
+        }
+
         /* ===== PRODUCTS ===== */
+        .section-title {
+            font-size: 20px;
+            font-weight: 800;
+            padding: 0 20px;
+            margin-bottom: 18px;
+            color: var(--text);
+        }
+
         .products {
-            padding: 0 20px 40px;
+            padding: 0 20px 50px;
             display: grid;
-            gap: 16px;
+            gap: 18px;
         }
 
         .product {
             background: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: 18px;
-            padding: 24px;
+            border-radius: 20px;
+            padding: 28px;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
@@ -222,8 +332,13 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 2px;
+            height: 3px;
             background: linear-gradient(90deg, transparent, var(--primary), transparent);
+        }
+
+        .product:hover {
+            border-color: rgba(108, 99, 255, 0.3);
+            box-shadow: 0 12px 40px rgba(108, 99, 255, 0.15);
         }
 
         .product:active {
@@ -235,25 +350,32 @@
             border-color: rgba(255, 107, 53, 0.3);
         }
 
+        .product.premium:hover {
+            box-shadow: 0 12px 40px rgba(255, 107, 53, 0.15);
+        }
+
         .product-head {
             display: flex;
             align-items: flex-start;
             justify-content: space-between;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
         }
 
         .product-icon {
-            font-size: 40px;
+            font-size: 48px;
+            line-height: 1;
         }
 
         .product-badge {
             font-size: 11px;
             font-weight: 700;
-            padding: 4px 12px;
+            padding: 6px 14px;
             border-radius: 20px;
             background: rgba(108, 99, 255, 0.15);
             color: #A09BFF;
             border: 1px solid rgba(108, 99, 255, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
         }
 
         .product.premium .product-badge {
@@ -263,82 +385,97 @@
         }
 
         .product-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 8px;
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 10px;
             text-align: left;
+            letter-spacing: -0.5px;
         }
 
         .product-text {
-            font-size: 13px;
+            font-size: 14px;
             color: var(--text-2);
             text-align: left;
-            line-height: 1.5;
-            margin-bottom: 14px;
+            line-height: 1.6;
+            margin-bottom: 16px;
         }
 
         .product-features {
             display: flex;
             flex-wrap: wrap;
-            gap: 6px;
-            margin-bottom: 14px;
+            gap: 8px;
+            margin-bottom: 16px;
         }
 
         .feature {
-            font-size: 11px;
+            font-size: 12px;
             background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             color: var(--text-2);
-            padding: 4px 10px;
-            border-radius: 6px;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-weight: 500;
         }
 
         .product-footer {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding-top: 14px;
+            padding-top: 16px;
             border-top: 1px solid var(--border);
-            margin-bottom: 14px;
+            margin-bottom: 16px;
         }
 
         .product-price {
-            font-size: 26px;
+            font-size: 32px;
             font-weight: 800;
             background: linear-gradient(135deg, #6C63FF, #FF6B35);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            line-height: 1;
         }
 
         .product-time {
             font-size: 12px;
             color: var(--text-2);
-            background: var(--bg);
-            padding: 4px 10px;
-            border-radius: 6px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-weight: 500;
         }
 
         .btn {
             width: 100%;
-            padding: 14px;
+            padding: 16px;
             border: none;
-            border-radius: 12px;
+            border-radius: 14px;
             background: linear-gradient(135deg, #6C63FF, #5A52D5);
             color: #fff;
             font-size: 16px;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             font-family: 'Inter', sans-serif;
             transition: all 0.3s;
+            letter-spacing: -0.3px;
+            box-shadow: 0 8px 24px rgba(108, 99, 255, 0.3);
+        }
+
+        .btn:hover {
+            box-shadow: 0 12px 32px rgba(108, 99, 255, 0.4);
         }
 
         .btn:active {
-            transform: scale(0.95);
+            transform: scale(0.97);
         }
 
         .btn.premium {
             background: linear-gradient(135deg, #FF6B35, #E55A26);
+            box-shadow: 0 8px 24px rgba(255, 107, 53, 0.3);
+        }
+
+        .btn.premium:hover {
+            box-shadow: 0 12px 32px rgba(255, 107, 53, 0.4);
         }
 
         /* ===== FORM SCREEN ===== */
@@ -349,13 +486,18 @@
             z-index: 50;
             overflow-y: auto;
             padding-bottom: 40px;
+            display: none;
+        }
+
+        .form-overlay.show {
+            display: block;
         }
 
         .form-header {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 16px 20px;
+            gap: 14px;
+            padding: 18px 20px;
             border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
@@ -364,36 +506,44 @@
         }
 
         .form-back {
-            width: 36px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
             background: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: 10px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            font-size: 20px;
+            font-size: 24px;
             color: var(--text);
             transition: all 0.3s;
+            flex-shrink: 0;
         }
 
         .form-back:active {
             transform: scale(0.9);
+            background: var(--bg-card-2);
+        }
+
+        .form-header-title {
+            font-size: 18px;
+            font-weight: 700;
         }
 
         .form-body {
-            padding: 20px;
+            padding: 28px 20px;
         }
 
         .form-title {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 24px;
+            letter-spacing: -0.5px;
         }
 
         .form-group {
-            margin-bottom: 16px;
+            margin-bottom: 18px;
         }
 
         .form-label {
@@ -403,18 +553,18 @@
             color: var(--text-2);
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
 
         .form-input,
         .form-textarea {
             width: 100%;
-            padding: 12px 16px;
+            padding: 14px 16px;
             background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 10px;
+            border: 1.5px solid var(--border);
+            border-radius: 12px;
             color: var(--text);
-            font-size: 14px;
+            font-size: 15px;
             font-family: 'Inter', sans-serif;
             outline: none;
             transition: all 0.3s;
@@ -424,18 +574,21 @@
         .form-input:focus,
         .form-textarea:focus {
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.15);
+            background: var(--bg-card-2);
+            box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.15);
         }
 
         .form-input::placeholder,
         .form-textarea::placeholder {
-            color: #5A5E75;
+            color: var(--text-3);
         }
 
         .form-hint {
             font-size: 12px;
-            color: #5A5E75;
-            margin-top: 4px;
+            color: var(--text-3);
+            margin-top: 6px;
+            font-weight: 500;
+            transition: all 0.3s;
         }
 
         .form-hint.success {
@@ -447,7 +600,7 @@
         }
 
         .form-submit {
-            margin-top: 12px;
+            margin-top: 16px;
         }
 
         .form-loading {
@@ -460,7 +613,7 @@
             position: fixed;
             inset: 0;
             background: var(--bg);
-            display: flex;
+            display: none;
             align-items: center;
             justify-content: center;
             z-index: 100;
@@ -468,54 +621,66 @@
             text-align: center;
         }
 
+        .success-overlay.show {
+            display: flex;
+            animation: fadeIn 0.4s ease;
+        }
+
         .success-content {
             max-width: 400px;
         }
 
         .success-circle {
-            width: 100px;
-            height: 100px;
+            width: 120px;
+            height: 120px;
             background: linear-gradient(135deg, rgba(0, 208, 132, 0.2), rgba(0, 208, 132, 0.1));
-            border: 2px solid var(--success);
+            border: 2.5px solid var(--success);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 24px;
-            font-size: 50px;
+            margin: 0 auto 28px;
+            font-size: 60px;
             animation: successBounce 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         @keyframes successBounce {
-            0% { transform: scale(0); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
+            0% { transform: scale(0) rotateZ(-45deg); opacity: 0; }
+            100% { transform: scale(1) rotateZ(0deg); opacity: 1; }
         }
 
         .success-title {
-            font-size: 28px;
+            font-size: 32px;
             font-weight: 800;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
+            letter-spacing: -0.5px;
         }
 
         .success-desc {
             font-size: 15px;
             color: var(--text-2);
-            line-height: 1.6;
-            margin-bottom: 24px;
+            line-height: 1.7;
+            margin-bottom: 28px;
+        }
+
+        .success-desc strong {
+            color: var(--text);
+            font-weight: 700;
         }
 
         .success-order {
             background: var(--bg-card);
-            border: 1px solid var(--border);
+            border: 1.5px solid var(--border);
             border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 24px;
-            font-size: 14px;
+            padding: 18px;
+            margin-bottom: 28px;
+            font-size: 15px;
         }
 
         .success-order strong {
             color: var(--primary);
             font-weight: 700;
+            font-size: 18px;
         }
 
         /* ===== TOAST ===== */
@@ -529,13 +694,14 @@
             border-radius: 12px;
             padding: 16px;
             z-index: 2000;
-            animation: toastSlide 0.3s ease;
+            animation: toastSlide 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
             font-size: 14px;
-            font-weight: 500;
+            font-weight: 600;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
         }
 
         @keyframes toastSlide {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(100px); }
             to { opacity: 1; transform: translateY(0); }
         }
     </style>
@@ -546,6 +712,7 @@
 <div class="loader" id="loader">
     <div class="loader-icon">⚡</div>
     <div class="loader-text">BitLine</div>
+    <div class="loader-subtitle">Загрузка...</div>
 </div>
 
 <div class="container">
@@ -553,10 +720,16 @@
     <!-- HEADER -->
     <div class="header">
         <div class="header-content">
-            <div class="header-logo">⚡</div>
-            <div class="header-info">
-                <div class="header-title">BitLine</div>
-                <div class="header-subtitle">Разработка ботов</div>
+            <div class="header-left">
+                <div class="header-logo">⚡</div>
+                <div class="header-info">
+                    <div class="header-title">BitLine</div>
+                    <div class="header-subtitle">Цифровые решения</div>
+                </div>
+            </div>
+            <div class="header-badge">
+                <span class="badge-dot"></span>
+                <span>Онлайн</span>
             </div>
         </div>
     </div>
@@ -568,64 +741,82 @@
                 <div class="hero-icon">🚀</div>
                 <h1 class="hero-title">Создаём цифровые продукты</h1>
                 <p class="hero-desc">Telegram-боты, сайты и приложения под ключ для вашего бизнеса</p>
+                
+                <div class="hero-buttons">
+                    <a href="https://t.me/BitLineOfficial" target="_blank" class="hero-btn" onclick="if(window.tg?.openTelegramLink) { window.tg.openTelegramLink('https://t.me/BitLineOfficial'); return false; }">
+                        <div class="hero-btn-icon">📢</div>
+                        <div class="hero-btn-text">Наш канал</div>
+                    </a>
+                    <a href="https://t.me/+It5VP8gdagU2OWMy" target="_blank" class="hero-btn" onclick="if(window.tg?.openTelegramLink) { window.tg.openTelegramLink('https://t.me/+It5VP8gdagU2OWMy'); return false; }">
+                        <div class="hero-btn-icon">⭐</div>
+                        <div class="hero-btn-text">Отзывы</div>
+                    </a>
+                </div>
             </div>
         </div>
 
-        <div class="products">
-            <div class="product" onclick="openForm('basic')">
-                <div class="product-head">
-                    <div class="product-icon">🤖</div>
-                    <span class="product-badge">Популярное</span>
+        <div>
+            <h2 class="section-title">Наши услуги</h2>
+            <div class="products">
+                <div class="product" onclick="openForm('basic')">
+                    <div class="product-head">
+                        <div class="product-icon">🤖</div>
+                        <span class="product-badge">Популярное</span>
+                    </div>
+                    <h3 class="product-title">Бот без Mini App</h3>
+                    <p class="product-text">Полнофункциональный Telegram-бот с базой данных и админ-панелью</p>
+                    <div class="product-features">
+                        <span class="feature">✓ База данных</span>
+                        <span class="feature">✓ Админ-панель</span>
+                        <span class="feature">✓ Уведомления</span>
+                        <span class="feature">✓ Аналитика</span>
+                    </div>
+                    <div class="product-footer">
+                        <div class="product-price">1 000 ₽</div>
+                        <div class="product-time">⏱ 3–5 дней</div>
+                    </div>
+                    <button class="btn" onclick="event.stopPropagation(); openForm('basic')">Купить →</button>
                 </div>
-                <h2 class="product-title">Бот без Mini App</h2>
-                <p class="product-text">Полнофункциональный Telegram-бот с базой данных и админ-панелью</p>
-                <div class="product-features">
-                    <span class="feature">✓ База данных</span>
-                    <span class="feature">✓ Админ-панель</span>
-                    <span class="feature">✓ Уведомления</span>
-                </div>
-                <div class="product-footer">
-                    <div class="product-price">1 000 ₽</div>
-                    <div class="product-time">3–5 дней</div>
-                </div>
-                <button class="btn" onclick="event.stopPropagation(); openForm('basic')">Купить →</button>
-            </div>
 
-            <div class="product premium" onclick="openForm('miniapp')">
-                <div class="product-head">
-                    <div class="product-icon">🚀</div>
-                    <span class="product-badge">Премиум</span>
+                <div class="product premium" onclick="openForm('miniapp')">
+                    <div class="product-head">
+                        <div class="product-icon">🚀</div>
+                        <span class="product-badge">Премиум</span>
+                    </div>
+                    <h3 class="product-title">Бот с Mini App</h3>
+                    <p class="product-text">Бот с современным веб-интерфейсом прямо в Telegram</p>
+                    <div class="product-features">
+                        <span class="feature">✓ Mini App</span>
+                        <span class="feature">✓ Веб-интерфейс</span>
+                        <span class="feature">✓ Платежи</span>
+                        <span class="feature">✓ CRM</span>
+                    </div>
+                    <div class="product-footer">
+                        <div class="product-price">2 500 ₽</div>
+                        <div class="product-time">⏱ 7–10 дней</div>
+                    </div>
+                    <button class="btn premium" onclick="event.stopPropagation(); openForm('miniapp')">Купить →</button>
                 </div>
-                <h2 class="product-title">Бот с Mini App</h2>
-                <p class="product-text">Бот с современным веб-интерфейсом прямо в Telegram</p>
-                <div class="product-features">
-                    <span class="feature">✓ Mini App интерфейс</span>
-                    <span class="feature">✓ Расширенная аналитика</span>
-                    <span class="feature">✓ Интеграция платежей</span>
-                </div>
-                <div class="product-footer">
-                    <div class="product-price">2 500 ₽</div>
-                    <div class="product-time">7–10 дней</div>
-                </div>
-                <button class="btn premium" onclick="event.stopPropagation(); openForm('miniapp')">Купить →</button>
             </div>
         </div>
     </div>
 
     <!-- FORM SCREEN -->
-    <div class="form-overlay" id="form-screen" style="display: none;">
+    <div class="form-overlay" id="form-screen">
         <div class="form-header">
             <button class="form-back" onclick="closeForm()">‹</button>
-            <h2 class="form-title">Оформление заказа</h2>
+            <h2 class="form-header-title">Оформление заказа</h2>
         </div>
         <div class="form-body">
+            <h3 class="form-title">Детали проекта</h3>
+
             <div class="form-group">
                 <label class="form-label">Описание проекта *</label>
                 <textarea 
                     class="form-textarea" 
                     id="description" 
-                    placeholder="Опишите функционал будущего бота максимально подробно..."
-                    rows="6"
+                    placeholder="Опишите функционал будущего бота максимально подробно. Чем подробнее - тем точнее мы реализуем ваш проект..."
+                    rows="7"
                 ></textarea>
                 <div class="form-hint" id="desc-hint">Минимум 10 символов</div>
             </div>
@@ -640,18 +831,18 @@
                 >
             </div>
 
-            <button class="btn form-submit" id="submit-btn" onclick="submitForm()">Отправить заказ</button>
+            <button class="btn form-submit" id="submit-btn" onclick="submitForm()">Отправить заказ →</button>
         </div>
     </div>
 
     <!-- SUCCESS SCREEN -->
-    <div class="success-overlay" id="success-screen" style="display: none;">
+    <div class="success-overlay" id="success-screen">
         <div class="success-content">
             <div class="success-circle">✅</div>
             <h2 class="success-title">Заказ принят!</h2>
             <p class="success-desc">Ваша заявка отправлена менеджерам.<br>Мы свяжемся с вами в течение <strong>15 минут</strong>.</p>
             <div class="success-order">Номер заявки: <strong id="order-num">#1001</strong></div>
-            <button class="btn" onclick="location.reload()">На главную</button>
+            <button class="btn" onclick="location.reload()">← На главную</button>
         </div>
     </div>
 
@@ -662,19 +853,22 @@
     tg.ready();
     tg.expand();
 
-    console.log('Mini App инициализирован');
-    console.log('User:', tg.initDataUnsafe?.user);
+    console.log('🚀 Mini App инициализирован');
+    console.log('👤 User:', tg.initDataUnsafe?.user);
 
     let currentProduct = null;
     let orderCounter = 1000;
-    const BOT_TOKEN = "8589937535:AAF1NWAlDPsZMkUjALwNEIwp4Vf_WbLxOLc"; // Вставь свой токен!
+    const BOT_TOKEN = "8589937535:AAF1NWAlDPsZMkUjALwNEIwp4Vf_WbLxOLc"; // ← Вставь свой токен!
     const BOT_API = `https://api.telegram.org/bot${BOT_TOKEN}`;
 
     // Hide loader
     window.addEventListener('load', () => {
         setTimeout(() => {
-            document.getElementById('loader').classList.add('hidden');
-        }, 1000);
+            const loader = document.getElementById('loader');
+            if (loader) {
+                loader.classList.add('hidden');
+            }
+        }, 1200);
     });
 
     // Description counter
@@ -683,7 +877,7 @@
         const hint = document.getElementById('desc-hint');
         
         if (len < 10) {
-            hint.textContent = `Минимум 10 символов (введено ${len})`;
+            hint.textContent = `⚠️ Минимум 10 символов (введено ${len})`;
             hint.classList.remove('success');
             hint.classList.add('error');
         } else {
@@ -694,7 +888,7 @@
     });
 
     function openForm(type) {
-        console.log('Открытие формы:', type);
+        console.log('📝 Открытие формы:', type);
         
         currentProduct = {
             type: type,
@@ -703,7 +897,7 @@
         };
 
         document.getElementById('home-screen').style.display = 'none';
-        document.getElementById('form-screen').style.display = 'block';
+        document.getElementById('form-screen').classList.add('show');
         document.getElementById('description').value = '';
         document.getElementById('contact').value = '';
         document.getElementById('description').focus();
@@ -716,7 +910,8 @@
     }
 
     function closeForm() {
-        document.getElementById('form-screen').style.display = 'none';
+        console.log('❌ Закрытие формы');
+        document.getElementById('form-screen').classList.remove('show');
         document.getElementById('home-screen').style.display = 'block';
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -726,7 +921,7 @@
         toast.className = 'toast';
         toast.textContent = msg;
         document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 3000);
+        setTimeout(() => toast.remove(), 3500);
     }
 
     async function submitForm() {
@@ -743,7 +938,7 @@
 
         const btn = document.getElementById('submit-btn');
         btn.classList.add('form-loading');
-        btn.textContent = 'Отправка...';
+        btn.textContent = '⏳ Отправка...';
 
         try {
             const user = tg.initDataUnsafe?.user || {};
@@ -751,7 +946,7 @@
             const userName = user.first_name || 'Гость';
             const userUsername = user.username || 'нет';
 
-            // Формируем сообщение для бота
+            // Формируем сообщение для бота с маркером
             const message = `📦 НОВЫЙ ЗАКАЗ
 
 👤 ${userName} (@${userUsername})
@@ -765,7 +960,7 @@ ${description}
 
 📞 Контакт: ${contact || 'Не указан'}`;
 
-            console.log('Отправляю заказ:', message);
+            console.log('✉️ Отправляю заказ боту:', message.substring(0, 100) + '...');
 
             // Отправляем боту
             const response = await fetch(`${BOT_API}/sendMessage`, {
@@ -781,36 +976,39 @@ ${description}
             });
 
             if (!response.ok) {
+                const errorData = await response.json();
+                console.error('❌ Ошибка от API:', errorData);
                 throw new Error(`HTTP ${response.status}`);
             }
 
             const data = await response.json();
-            console.log('Ответ бота:', data);
+            console.log('✅ Заказ успешно отправлен боту');
 
             // Показываем успех
             orderCounter++;
             const orderId = `#${orderCounter}`;
 
-            document.getElementById('form-screen').style.display = 'none';
+            document.getElementById('form-screen').classList.remove('show');
             document.getElementById('home-screen').style.display = 'none';
-            document.getElementById('success-screen').style.display = 'flex';
+            document.getElementById('success-screen').classList.add('show');
             document.getElementById('order-num').textContent = orderId;
 
             if (tg.HapticFeedback) {
                 tg.HapticFeedback.notificationOccurred('success');
             }
 
-            showToast('✅ Заказ успешно отправлен!');
+            showToast('✅ Заказ отправлен менеджерам!');
+            console.log('🎉 Полный цикл завершен успешно');
 
         } catch (error) {
-            console.error('Ошибка:', error);
-            showToast('❌ Ошибка при отправке заказа');
+            console.error('❌ ОШИБКА:', error);
+            showToast('❌ Ошибка при отправке');
             if (tg.HapticFeedback) {
                 tg.HapticFeedback.notificationOccurred('error');
             }
         } finally {
             btn.classList.remove('form-loading');
-            btn.textContent = 'Отправить заказ';
+            btn.textContent = 'Отправить заказ →';
         }
     }
 </script>
