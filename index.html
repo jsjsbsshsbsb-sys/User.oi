@@ -924,30 +924,30 @@
         setTimeout(() => toast.remove(), 3500);
     }
 
-    async function submitForm() {
-        const description = document.getElementById('description').value.trim();
-        const contact = document.getElementById('contact').value.trim();
+async function submitForm() {
+    const description = document.getElementById('description').value.trim();
+    const contact = document.getElementById('contact').value.trim();
 
-        if (description.length < 10) {
-            showToast('⚠️ Опишите проект подробнее');
-            if (tg.HapticFeedback) {
-                tg.HapticFeedback.notificationOccurred('error');
-            }
-            return;
+    if (description.length < 10) {
+        showToast('⚠️ Опишите проект подробнее');
+        if (tg.HapticFeedback) {
+            tg.HapticFeedback.notificationOccurred('error');
         }
+        return;
+    }
 
-        const btn = document.getElementById('submit-btn');
-        btn.classList.add('form-loading');
-        btn.textContent = '⏳ Отправка...';
+    const btn = document.getElementById('submit-btn');
+    btn.classList.add('form-loading');
+    btn.textContent = '⏳ Отправка...';
 
-        try {
-            const user = tg.initDataUnsafe?.user || {};
-            const userId = user.id || 0;
-            const userName = user.first_name || 'Гость';
-            const userUsername = user.username || 'нет';
+    try {
+        const user = tg.initDataUnsafe?.user || {};
+        const userId = user.id || 0;
+        const userName = user.first_name || 'Гость';
+        const userUsername = user.username || 'нет';
 
-            // Формируем сообщение для бота с маркером
-            const message = `📦 НОВЫЙ ЗАКАЗ
+        // Формируем сообщение с маркером "НОВЫЙ ЗАКАЗ"
+        const message = `📦 НОВЫЙ ЗАКАЗ
 
 👤 ${userName} (@${userUsername})
 ID: ${userId}
@@ -960,57 +960,58 @@ ${description}
 
 📞 Контакт: ${contact || 'Не указан'}`;
 
-            console.log('✉️ Отправляю заказ боту:', message.substring(0, 100) + '...');
+        console.log('📤 ОТПРАВЛЯЮ ЗАКАЗ БОТУ');
+        console.log('Сообщение:', message);
 
-            // Отправляем боту
-            const response = await fetch(`${BOT_API}/sendMessage`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    chat_id: userId,
-                    text: message,
-                    parse_mode: 'HTML'
-                })
-            });
+        // Отправляем боту
+        const response = await fetch(`${BOT_API}/sendMessage`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                chat_id: userId,
+                text: message,
+                parse_mode: 'HTML'
+            })
+        });
 
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.error('❌ Ошибка от API:', errorData);
-                throw new Error(`HTTP ${response.status}`);
-            }
-
-            const data = await response.json();
-            console.log('✅ Заказ успешно отправлен боту');
-
-            // Показываем успех
-            orderCounter++;
-            const orderId = `#${orderCounter}`;
-
-            document.getElementById('form-screen').classList.remove('show');
-            document.getElementById('home-screen').style.display = 'none';
-            document.getElementById('success-screen').classList.add('show');
-            document.getElementById('order-num').textContent = orderId;
-
-            if (tg.HapticFeedback) {
-                tg.HapticFeedback.notificationOccurred('success');
-            }
-
-            showToast('✅ Заказ отправлен менеджерам!');
-            console.log('🎉 Полный цикл завершен успешно');
-
-        } catch (error) {
-            console.error('❌ ОШИБКА:', error);
-            showToast('❌ Ошибка при отправке');
-            if (tg.HapticFeedback) {
-                tg.HapticFeedback.notificationOccurred('error');
-            }
-        } finally {
-            btn.classList.remove('form-loading');
-            btn.textContent = 'Отправить заказ →';
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error('❌ Ошибка от API:', errorData);
+            throw new Error(`HTTP ${response.status}: ${errorData.description}`);
         }
+
+        const data = await response.json();
+        console.log('✅✅✅ ЗАКАЗ ОТПРАВЛЕН БОТУ!');
+        console.log('Ответ:', data);
+
+        // Показываем успех
+        orderCounter++;
+        const orderId = `#${orderCounter}`;
+
+        document.getElementById('form-screen').classList.remove('show');
+        document.getElementById('home-screen').style.display = 'none';
+        document.getElementById('success-screen').classList.add('show');
+        document.getElementById('order-num').textContent = orderId;
+
+        if (tg.HapticFeedback) {
+            tg.HapticFeedback.notificationOccurred('success');
+        }
+
+        showToast('✅ Заказ отправлен!');
+
+    } catch (error) {
+        console.error('❌ ОШИБКА:', error);
+        showToast('❌ Ошибка: ' + error.message);
+        if (tg.HapticFeedback) {
+            tg.HapticFeedback.notificationOccurred('error');
+        }
+    } finally {
+        btn.classList.remove('form-loading');
+        btn.textContent = 'Отправить заказ →';
     }
+}
 </script>
 
 </body>
